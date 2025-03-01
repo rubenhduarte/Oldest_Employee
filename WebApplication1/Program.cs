@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IExternalDataServices, ExternalDataServices>();
+builder.Services.AddTransient<IExternalDataService, ExternalDataService>();
 builder.Services.AddTransient<IEmployeeProcessor, EmployeeProcessor>();
 
 

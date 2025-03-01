@@ -9,10 +9,10 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
-        private readonly IExternalDataServices _externalDataService;
+        private readonly IExternalDataService _externalDataService;
         private readonly IEmployeeProcessor _employeeProcessor;
 
-        public EmployeeController(IExternalDataServices externalDataService,
+        public EmployeeController(IExternalDataService externalDataService,
                                   IEmployeeProcessor employeeProcessor)
         {
             _externalDataService = externalDataService;
@@ -23,10 +23,20 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> GetOldestEmployee()
         {
 
-            // Obtener la cadena JSON del servicio externo
-            string jsonData = await _externalDataService.GetEmployeesJsonAsync();
+            // Obtener el resultado de la operación que contiene el JSON.
+            var result = await _externalDataService.GetEmployeesJsonAsync();
 
-            // Procesar el JSON para obtener el empleado más viejo
+            // Verificar si la operación fue exitosa.
+            if (!result.Success)
+            {
+                // Puedes devolver NotFound o BadRequest, según lo que consideres adecuado.
+                return NotFound(result.ErrorMessage);
+            }
+
+            // Extraer el JSON real.
+            string jsonData = result.Data;
+
+            // Procesar el JSON para obtener el empleado más viejo.
             Employee oldestEmployee = _employeeProcessor.GetOldestEmployee(jsonData);
 
             return Ok(oldestEmployee);

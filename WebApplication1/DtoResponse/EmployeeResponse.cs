@@ -5,11 +5,11 @@ namespace WebApplication1.DtoResponse {
         
     {
          [JsonPropertyName("status")]
-         public string Status { get; set; }
+         public string? Status { get; set; }
          [JsonPropertyName("data")]
-         public List<Employee> Data { get; set; }
+         public List<Employee>? Data { get; set; }
          
          [JsonPropertyName("message")]
-         public string Message { get; set; }
+         public string? Message { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace WebApplication1.DtoResponse
         }
 
          [JsonPropertyName("employee_name")]
-        public  string EmployeeName {
+        public  string? EmployeeName {
             get;
             set;
         }
@@ -26,7 +26,7 @@ namespace WebApplication1.DtoResponse
             set;
         }
         [JsonPropertyName("profile_image")]
-        public string ProfileImage {
+        public string? ProfileImage {
             get;
             set;
         }
