@@ -36,10 +36,18 @@ namespace WebApplication1.Controllers
             // Extraer el JSON real.
             string jsonData = result.Data;
 
-            // Procesar el JSON para obtener el empleado más viejo.
-            Employee oldestEmployee = _employeeProcessor.GetOldestEmployee(jsonData);
-
-            return Ok(oldestEmployee);
+            try
+            { 
+                // Procesar el JSON para obtener el empleado más viejo.
+                Employee oldestEmployee = _employeeProcessor.GetOldestEmployee(jsonData);
+                return Ok(oldestEmployee);
+            }
+            catch (Exception ex)
+            {
+                // Si ocurre cualquier error en el procesamiento, devolvemos NotFound con el mensaje.
+                return NotFound(ex.Message);
+            }
+           
         }
     }
 }
