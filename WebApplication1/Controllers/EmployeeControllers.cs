@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.DtoResponse;
 using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
@@ -8,20 +9,27 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
-        private readonly IExternalServices _externalService;
-        public EmployeeController(IExternalServices externalService)
+        private readonly IExternalDataServices _externalDataService;
+        private readonly IEmployeeProcessor _employeeProcessor;
+
+        public EmployeeController(IExternalDataServices externalDataService,
+                                  IEmployeeProcessor employeeProcessor)
         {
-            _externalService = externalService;
+            _externalDataService = externalDataService;
+            _employeeProcessor = employeeProcessor;
         }
 
         [HttpGet("oldest-employee")]
         public async Task<IActionResult> GetOldestEmployee()
         {
-            var employee = await _externalService.GetEmployeesAsync();
-            if (employee == null)
-                return NotFound("No se encontraron empleados.");
 
-            return Ok(employee);
+            // Obtener la cadena JSON del servicio externo
+            string jsonData = await _externalDataService.GetEmployeesJsonAsync();
+
+            // Procesar el JSON para obtener el empleado más viejo
+            Employee oldestEmployee = _employeeProcessor.GetOldestEmployee(jsonData);
+
+            return Ok(oldestEmployee);
         }
     }
 }

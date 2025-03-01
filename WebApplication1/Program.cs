@@ -9,13 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IExternalServices, ExternalServices>();
+builder.Services.AddTransient<IExternalDataServices, ExternalDataServices>();
+builder.Services.AddTransient<IEmployeeProcessor, EmployeeProcessor>();
 
-//builder.Services.AddHttpClient<IExternalServices, ExternalServices>(client =>
-//{
-//    client.BaseAddress = new Uri("http://dummy.restapiexample.com/api/v1/employees");
-//    client.Timeout = TimeSpan.FromSeconds(10);
-//});
 
 var app = builder.Build();
 
